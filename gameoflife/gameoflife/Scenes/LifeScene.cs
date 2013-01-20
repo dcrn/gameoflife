@@ -23,12 +23,23 @@ namespace gameoflife.Scenes
 			life.FitToParent(2);
 			life.Height -= 62;
 
-			Panel brushes = new Panel();
+			PanelList brushes = new PanelList();
 			brushes.color = Color.CornflowerBlue;
 			canvas.Add(brushes);
 			brushes.FitToParent(2);
 			brushes.Height = 60;
 			brushes.Y = canvas.Height - 62;
+
+			Random r = new Random();
+			for (int i = 0; i < 6; i++)
+			{
+				Panel block = new Panel();
+				block.color = new Color(r.Next(255), r.Next(255), r.Next(255));
+				block.Width = 56;
+				block.Height = 56;
+
+				brushes.Add(block);
+			}
 		}
 		public override void LoadContent()
 		{

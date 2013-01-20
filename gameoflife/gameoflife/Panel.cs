@@ -11,8 +11,8 @@ namespace gameoflife
 	{
 		public Color color;
 		public Panel parent;
+		protected List<Panel> children;
 		private Rectangle rect;
-		private List<Panel> children;
 
 		public int X
 		{
@@ -51,7 +51,7 @@ namespace gameoflife
 		}
 
 		// Add a child element
-		public void Add(Panel p)
+		public virtual void Add(Panel p)
 		{
 			// Add a new child
 			this.children.Add(p);
