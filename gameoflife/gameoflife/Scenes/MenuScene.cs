@@ -106,6 +106,10 @@ namespace gameoflife.Scenes
 		{
 			canvas.Draw(spriteBatch, 0, 0);
 		}
+		public override void MouseDown(int button, int x, int y, double deltatime)
+		{
+			canvas.MouseDown(button, x, y, deltatime);
+		}
 		public override void Update(double deltatime, double totaltime)
 		{
 			canvas.Update(deltatime);

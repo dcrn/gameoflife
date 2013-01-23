@@ -12,7 +12,7 @@ namespace gameoflife
 		public Color color;
 		public Panel parent;
 		protected List<Panel> children;
-		private Rectangle rect;
+		protected Rectangle rect;
 
 		public int X
 		{
@@ -109,6 +109,30 @@ namespace gameoflife
 				if (locx > 0 && locy > 0 && locx < p.Width && locy < p.Height &&
 						// And check it's children
 						p.MousePressed(button, locx, locy)
+					)
+				{
+					// Return true to tell that something has been clicked
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public virtual bool MouseDown(int button, int x, int y, double deltatime)
+		{
+			int locx, locy;
+
+			// Loop through all children
+			foreach (Panel p in children)
+			{
+				// x, y local to the child panel
+				locx = x - p.X;
+				locy = y - p.Y;
+
+				// Check if it's in bounds of the child panel
+				if (locx > 0 && locy > 0 && locx < p.Width && locy < p.Height &&
+					// And check it's children
+						p.MouseDown(button, locx, locy, deltatime)
 					)
 				{
 					// Return true to tell that something has been clicked

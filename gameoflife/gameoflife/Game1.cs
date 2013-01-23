@@ -103,6 +103,16 @@ namespace gameoflife
 
 			// Update the active scene
 			activeScene.Update(gameTime.ElapsedGameTime.TotalSeconds, gameTime.TotalGameTime.TotalSeconds);
+
+			if (curMouse.LeftButton == ButtonState.Pressed)
+			{
+				activeScene.MouseDown(1, curMouse.X, curMouse.Y, gameTime.ElapsedGameTime.TotalSeconds);
+			}
+			if (curMouse.RightButton == ButtonState.Pressed)
+			{
+				activeScene.MouseDown(2, curMouse.X, curMouse.Y, gameTime.ElapsedGameTime.TotalSeconds);
+			}
+
 			prevMouseState = curMouse;
 
 			base.Update(gameTime);

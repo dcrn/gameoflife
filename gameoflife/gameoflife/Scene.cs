@@ -15,6 +15,7 @@ namespace gameoflife
 		public abstract void MousePressed(int button, int x, int y);
 		public abstract void MouseReleased(int button, int x, int y);
 		public abstract void Draw(SpriteBatch spriteBatch);
+		public abstract void MouseDown(int button, int x, int y, double deltatime);
 		public abstract void Update(double deltatime, double totaltime);
 	}
 }

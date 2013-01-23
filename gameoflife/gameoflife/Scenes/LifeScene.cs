@@ -19,24 +19,45 @@ namespace gameoflife.Scenes
 
 			LifeGrid life = new LifeGrid();
 			life.color = Color.White;
+			life.Width = canvas.Width - 4;
+			life.Height = canvas.Height - 30 - 50 - 8;
+			life.X = 2;
+			life.Y = 34;
 			canvas.Add(life);
-			life.FitToParent(2);
-			life.Height -= 62;
+
+			PanelList menubuttons = new PanelList();
+			menubuttons.color = Color.CornflowerBlue;
+			menubuttons.Width = canvas.Width - 4;
+			menubuttons.Height = 30;
+			menubuttons.X = 2;
+			menubuttons.Y = 2;
+			canvas.Add(menubuttons);
+
+			Random r = new Random();
+			for (int i = 0; i < 5; i++)
+			{
+				Panel block = new Button();
+				block.color = Color.DeepSkyBlue;
+				block.Width = 85;
+				block.Height = 26;
+
+				menubuttons.Add(block);
+			}
 
 			PanelList brushes = new PanelList();
 			brushes.color = Color.CornflowerBlue;
+			brushes.Width = canvas.Width - 4;
+			brushes.Height = 50;
+			brushes.X = 2;
+			brushes.Y = canvas.Height - 52;
 			canvas.Add(brushes);
-			brushes.FitToParent(2);
-			brushes.Height = 60;
-			brushes.Y = canvas.Height - 62;
 
-			Random r = new Random();
 			for (int i = 0; i < 6; i++)
 			{
 				Panel block = new Panel();
-				block.color = new Color(r.Next(255), r.Next(255), r.Next(255));
-				block.Width = 56;
-				block.Height = 56;
+				block.color = Color.DeepSkyBlue;
+				block.Width = 46;
+				block.Height = 46;
 
 				brushes.Add(block);
 			}
@@ -60,6 +81,10 @@ namespace gameoflife.Scenes
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			canvas.Draw(spriteBatch, 0, 0);
+		}
+		public override void MouseDown(int button, int x, int y, double deltatime)
+		{
+			canvas.MouseDown(button, x, y, deltatime);
 		}
 		public override void Update(double deltatime, double totaltime)
 		{
