@@ -33,7 +33,14 @@ namespace gameoflife.Scenes
 			menubuttons.Y = 2;
 			canvas.Add(menubuttons);
 
-			Random r = new Random();
+			Button pause = new Button();
+			pause.color = Color.DeepSkyBlue;
+			pause.Width = 85;
+			pause.Height = 26;
+			pause.ClickEvent += delegate { life.Playing = !life.Playing; };
+
+			menubuttons.Add(pause);
+
 			for (int i = 0; i < 5; i++)
 			{
 				Panel block = new Button();
