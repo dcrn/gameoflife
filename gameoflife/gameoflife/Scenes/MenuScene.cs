@@ -14,7 +14,7 @@ namespace gameoflife.Scenes
 		public override void Initialize()
 		{
 			canvas = new Panel();
-			canvas.color = Color.RoyalBlue;
+			canvas.Color = Color.RoyalBlue;
 			canvas.Width = Game1.instance.GraphicsDevice.Viewport.Width;
 			canvas.Height = Game1.instance.GraphicsDevice.Viewport.Height;
 
@@ -27,7 +27,7 @@ namespace gameoflife.Scenes
 			title.Y = 40;
 
 			Panel menubox = new Panel();
-			menubox.color = Color.CornflowerBlue;
+			menubox.Color = Color.CornflowerBlue;
 			menubox.Width = 200;
 			menubox.Height = 280;
 
@@ -78,7 +78,7 @@ namespace gameoflife.Scenes
 			menubox.Add(exitButton);
 
 			spButton.ClickEvent += delegate { Play(); };
-			mpButton.ClickEvent += delegate { Play(); };
+			mpButton.ClickEvent += delegate { };
 			exitButton.ClickEvent += delegate { Game1.instance.Exit(); };
 		}
 		public void Play()

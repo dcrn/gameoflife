@@ -11,17 +11,30 @@ namespace gameoflife
 	class LifeGrid : Panel
 	{
 		// 2D array for holding cell data
-		bool[,] curgrid;
 		bool[,] grid1;
 		bool[,] grid2;
 
 		// Playing and speed settings
 		bool playing;
 		double speed;
+		double lastUpdate;
 		
 		// Last position on the grid for drawing
 		int lastgx;
 		int lastgy;
+
+		// Grid size
+		int gridw;
+		int gridh;
+
+		// Cell size
+		int cellSize;
+
+		public int CellSize
+		{
+			get { return cellSize; }
+			set { cellSize = value; }
+		}
 
 		public bool Playing
 		{
@@ -38,13 +51,27 @@ namespace gameoflife
 		public LifeGrid()
 			: base()
 		{
-			grid1 = new bool[88, 43];
-			grid2 = new bool[88, 43];
+			gridw = 0;
+			gridh = 0;
+			CellSize = 0;
 
 			lastgx = 0;
 			lastgy = 0;
+
 			playing = false;
-			speed = 1.0;
+			speed = 0.1;
+			lastUpdate = 0.0;
+		}
+
+		public void SetGridSize(int w, int h)
+		{
+			gridw = w;
+			gridh = h;
+			grid1 = new bool[w, h];
+			grid2 = new bool[w, h];
+
+			Width = w * cellSize;
+			Height = h * cellSize;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, int xoffset, int yoffset)
@@ -52,15 +79,15 @@ namespace gameoflife
 			base.Draw(spriteBatch, xoffset, yoffset);
 
 			// Loop through grid
-			for (int x = 0; x < 88; x++)
+			for (int x = 0; x < gridw; x++)
 			{
-				for (int y = 0; y < 43; y++)
+				for (int y = 0; y < gridh; y++)
 				{
 					// Draw each cell
 					spriteBatch.Draw(Game1.instance.blankTexture,
 						new Rectangle(
-							3 + xoffset + x * 9, 3 + yoffset + y * 9,
-							8, 8
+							xoffset + x * cellSize, yoffset + y * cellSize,
+							cellSize - 1, cellSize - 1
 							),
 							grid1[x, y] == true ? Color.Black : Color.White);
 				}
@@ -69,12 +96,8 @@ namespace gameoflife
 			base.DrawChildren(spriteBatch, xoffset, yoffset);
 		}
 
-		private bool cellIsAlive(int x, int y)
+		private bool CellAlive(int x, int y)
 		{
-			if (x == 1 && y == 0)
-			{
-				Console.WriteLine(".");
-			}
 			int alivecount = 0;
 			for (int i = 0; i < 9; i++)
 			{
@@ -84,18 +107,12 @@ namespace gameoflife
 					int locy = (i / 3) - 1;
 
 					if ((x + locx) >= 0 && (y + locy) >= 0 &&
-							(x + locx) < 88 && (y + locy) < 43)
+							(x + locx) < gridw && (y + locy) < gridh &&
+							grid1[x + locx, y + locy])
 					{
-						if (grid1[x + locx, y + locy])
-						{
-							alivecount++;
-						}
+						alivecount++;
 					}
 				}
-			}
-			if (x == 0 && y == 0)
-			{
-				Console.WriteLine("0, 0 alive neighbors: " + alivecount);
 			}
 
 			if (grid1[x, y])
@@ -117,21 +134,32 @@ namespace gameoflife
 			return false;
 		}
 
+		private void updateBoard()
+		{
+			for (int x = 0; x < gridw; x++)
+			{
+				for (int y = 0; y < gridh; y++)
+				{
+					grid2[x, y] = CellAlive(x, y);
+				}
+			}
+
+			// Swap arrays so grid2 is drawn now
+			bool[,] tmp = grid2;
+			grid2 = grid1;
+			grid1 = tmp;
+		}
+
 		public override void Update(double deltatime)
 		{
 			if (playing)
 			{
-				for (int x = 0; x < 88; x++)
+				lastUpdate += deltatime;
+				if (lastUpdate > speed)
 				{
-					for (int y = 0; y < 43; y++)
-					{
-						grid2[x, y] = cellIsAlive(x, y);
-					}
+					updateBoard();
+					lastUpdate = 0.0;
 				}
-
-				bool[,] tmp = grid2;
-				grid2 = grid1;
-				grid1 = tmp;
 			}
 
 			base.Update(deltatime);
@@ -145,12 +173,12 @@ namespace gameoflife
 			}
 
 			// Grid position from mouse location
-			int gx = (x - 3) / 9;
-			int gy = (y - 3) / 9;
+			int gx = x / cellSize;
+			int gy = y / cellSize;
 
 			// If the mouse has been moved, and it's a position in the grid
 			if ((gx != lastgx || gy != lastgy) &&
-				(gx >= 0 && gy >= 0 && gx < 88 && gy < 43))
+				(gx >= 0 && gy >= 0 && gx < gridw && gy < gridh))
 			{
 				// Set the cell on or off (on if left mouse button)
 				grid1[gx, gy] = button == 1;

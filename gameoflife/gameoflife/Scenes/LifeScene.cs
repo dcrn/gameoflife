@@ -15,18 +15,25 @@ namespace gameoflife.Scenes
 			canvas = new Panel();
 			canvas.Width = Game1.instance.GraphicsDevice.Viewport.Width;
 			canvas.Height = Game1.instance.GraphicsDevice.Viewport.Height;
-			canvas.color = Color.RoyalBlue;
+			canvas.Color = Color.RoyalBlue;
+
+			Panel lifeBg = new Panel();
+			lifeBg.Color = Color.CornflowerBlue;
+			lifeBg.Width = canvas.Width - 4;
+			lifeBg.Height = canvas.Height - 30 - 50 - 8;
+			lifeBg.X = 2;
+			lifeBg.Y = 34;
+			canvas.Add(lifeBg);
 
 			LifeGrid life = new LifeGrid();
-			life.color = Color.White;
-			life.Width = canvas.Width - 4;
-			life.Height = canvas.Height - 30 - 50 - 8;
-			life.X = 2;
-			life.Y = 34;
-			canvas.Add(life);
+			life.Color = Color.WhiteSmoke;
+			life.CellSize = 9;
+			life.SetGridSize(lifeBg.Width / 9, lifeBg.Height / 9);
+			lifeBg.Add(life);
+			life.Center();
 
 			PanelList menubuttons = new PanelList();
-			menubuttons.color = Color.CornflowerBlue;
+			menubuttons.Color = Color.CornflowerBlue;
 			menubuttons.Width = canvas.Width - 4;
 			menubuttons.Height = 30;
 			menubuttons.X = 2;
@@ -34,7 +41,7 @@ namespace gameoflife.Scenes
 			canvas.Add(menubuttons);
 
 			Button pause = new Button();
-			pause.color = Color.DeepSkyBlue;
+			pause.Color = Color.DeepSkyBlue;
 			pause.Width = 85;
 			pause.Height = 26;
 			pause.ClickEvent += delegate { life.Playing = !life.Playing; };
@@ -44,7 +51,7 @@ namespace gameoflife.Scenes
 			for (int i = 0; i < 5; i++)
 			{
 				Panel block = new Button();
-				block.color = Color.DeepSkyBlue;
+				block.Color = Color.DeepSkyBlue;
 				block.Width = 85;
 				block.Height = 26;
 
@@ -52,7 +59,7 @@ namespace gameoflife.Scenes
 			}
 
 			PanelList brushes = new PanelList();
-			brushes.color = Color.CornflowerBlue;
+			brushes.Color = Color.CornflowerBlue;
 			brushes.Width = canvas.Width - 4;
 			brushes.Height = 50;
 			brushes.X = 2;
@@ -62,7 +69,7 @@ namespace gameoflife.Scenes
 			for (int i = 0; i < 6; i++)
 			{
 				Panel block = new Panel();
-				block.color = Color.DeepSkyBlue;
+				block.Color = Color.DeepSkyBlue;
 				block.Width = 46;
 				block.Height = 46;
 

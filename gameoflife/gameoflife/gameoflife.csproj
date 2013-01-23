@@ -118,6 +118,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Scenes\LifeScene.cs" />
     <Compile Include="Scenes\MenuScene.cs" />
+    <Compile Include="Slider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

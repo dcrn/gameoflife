@@ -30,7 +30,7 @@ namespace gameoflife
 			// Defaults for text, color
 			text = "";
 			font = Game1.instance.textfont;
-			color = Color.White;
+			Color = Color.White;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, int xoffset, int yoffset)
@@ -38,7 +38,7 @@ namespace gameoflife
 			// Don't draw any background
 
 			// Draw text
-			spriteBatch.DrawString(font, text, new Vector2(xoffset, yoffset), this.color);
+			spriteBatch.DrawString(font, text, new Vector2(xoffset, yoffset), this.Color);
 
 			// Draw children.. if there are any..
 			base.DrawChildren(spriteBatch, xoffset, yoffset);

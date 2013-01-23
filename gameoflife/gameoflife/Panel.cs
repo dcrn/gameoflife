@@ -9,10 +9,17 @@ namespace gameoflife
 {
 	class Panel
 	{
-		public Color color;
+		private Color color;
+
 		public Panel parent;
 		protected List<Panel> children;
 		protected Rectangle rect;
+
+		public Color Color
+		{
+			get { return color; }
+			set { color = value; }
+		}
 
 		public int X
 		{
