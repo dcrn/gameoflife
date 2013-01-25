@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
+using System.Windows.Forms;
 
 namespace gameoflife
 {
@@ -214,6 +216,111 @@ namespace gameoflife
 			lastgy = 0;
 
 			return true;
+		}
+
+		public void Clear()
+		{
+			this.Playing = false;
+			for (int x = 0; x < gridw; x++)
+			{
+				for (int y = 0; y < gridh; y++)
+				{
+					grid1[x, y] = false;
+				}
+			} 
+		}
+
+		public void Random()
+		{
+			this.Playing = false;
+			Random r = new Random();
+			for (int x = 0; x < gridw; x++)
+			{
+				for (int y = 0; y < gridh; y++)
+				{
+					grid1[x, y] = r.Next(2) == 1;
+				}
+			} 
+		}
+
+		public void Load()
+		{
+			this.Playing = false;
+			OpenFileDialog filedialog = new OpenFileDialog();
+			filedialog.CheckPathExists = true;
+			filedialog.CheckFileExists = true;
+			filedialog.Multiselect = false;
+			filedialog.Filter = "Game of life board (*.life)|*.life";
+			filedialog.FilterIndex = 0;
+
+			DialogResult result = filedialog.ShowDialog();
+			if (result != DialogResult.OK)
+				return;
+
+			StreamReader file;
+
+			try
+			{
+				file = new StreamReader(filedialog.FileName);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+				return;
+			}
+
+			this.Clear();
+
+			int y = 0;
+			while (!file.EndOfStream)
+			{
+				String line = file.ReadLine();
+
+				for (int x = 0; x < line.Length; x++)
+				{
+					grid1[x, y] = line[x] == '1';
+				}
+
+				y++;
+			}
+
+			file.Close();
+		}
+
+		public void Save()
+		{
+			this.Playing = false;
+			SaveFileDialog savedialog = new SaveFileDialog();
+			savedialog.CheckPathExists = true;
+			savedialog.Filter = "Game of Life board (*.life)|*.life";
+			savedialog.FilterIndex = 0;
+
+			DialogResult result = savedialog.ShowDialog();
+			if (result != DialogResult.OK)
+				return;
+
+			StreamWriter file;
+
+			try
+			{
+				file = new StreamWriter(savedialog.FileName);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+				return;
+			}
+
+			for (int y = 0; y < gridh; y++)
+			{
+				for (int x = 0; x < gridw; x++)
+				{
+					file.Write(grid1[x, y] ? '1' : '0');
+				}
+				file.Write(file.NewLine);
+			}
+
+			file.Close();
 		}
 	}
 }

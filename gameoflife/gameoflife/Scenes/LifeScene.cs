@@ -40,23 +40,61 @@ namespace gameoflife.Scenes
 			menubuttons.Y = 2;
 			canvas.Add(menubuttons);
 
-			Button pause = new Button();
-			pause.Color = Color.DeepSkyBlue;
-			pause.Width = 85;
-			pause.Height = 26;
-			pause.ClickEvent += delegate { life.Playing = !life.Playing; };
+			TextButton clear = new TextButton();
+			clear.Text = "Clear";
+			clear.Color = Color.DeepSkyBlue;
+			clear.Width = 85;
+			clear.Height = 26;
+			clear.ClickEvent += delegate { life.Clear(); };
+			menubuttons.Add(clear);
 
+			TextButton random = new TextButton();
+			random.Text = "Randomize";
+			random.Color = Color.DeepSkyBlue;
+			random.Width = 85;
+			random.Height = 26;
+			random.ClickEvent += delegate { life.Random(); };
+
+			menubuttons.Add(random);
+
+			TextButton load = new TextButton();
+			load.Text = "Load";
+			load.Color = Color.DeepSkyBlue;
+			load.Width = 85;
+			load.Height = 26;
+			load.ClickEvent += delegate { life.Load(); };
+			menubuttons.Add(load);
+
+			TextButton save = new TextButton();
+			save.Text = "Save";
+			save.Color = Color.DeepSkyBlue;
+			save.Width = 85;
+			save.Height = 26;
+			save.ClickEvent += delegate { life.Save(); };
+			menubuttons.Add(save);
+
+			SpriteButton play = new SpriteButton();
+			play.Load("play");
+			play.Color = Color.DeepSkyBlue;
+			play.Width = 26;
+			play.Height = 26;
+			play.ClickEvent += delegate { life.Playing = true; };
+			menubuttons.Add(play);
+
+			SpriteButton pause = new SpriteButton();
+			pause.Load("pause");
+			pause.Color = Color.DeepSkyBlue;
+			pause.Width = 26;
+			pause.Height = 26;
+			pause.ClickEvent += delegate { life.Playing = false; };
 			menubuttons.Add(pause);
 
-			for (int i = 0; i < 5; i++)
-			{
-				Panel block = new Button();
-				block.Color = Color.DeepSkyBlue;
-				block.Width = 85;
-				block.Height = 26;
-
-				menubuttons.Add(block);
-			}
+			Slider speed = new Slider();
+			speed.Color = Color.DeepSkyBlue;
+			speed.Width = 100;
+			speed.Height = 14;
+			speed.OnChange += delegate { life.Speed = speed.Value; };
+			menubuttons.Add(speed);
 
 			PanelList brushes = new PanelList();
 			brushes.Color = Color.CornflowerBlue;
@@ -65,16 +103,6 @@ namespace gameoflife.Scenes
 			brushes.X = 2;
 			brushes.Y = canvas.Height - 52;
 			canvas.Add(brushes);
-
-			for (int i = 0; i < 6; i++)
-			{
-				Panel block = new Panel();
-				block.Color = Color.DeepSkyBlue;
-				block.Width = 46;
-				block.Height = 46;
-
-				brushes.Add(block);
-			}
 		}
 		public override void LoadContent()
 		{

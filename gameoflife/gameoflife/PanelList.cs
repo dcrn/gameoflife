@@ -18,8 +18,8 @@ namespace gameoflife
 			foreach (Panel p in this.children)
 			{
 				p.X = x;
-				p.Y = 2;
 				x = x + p.Width + 2;
+				p.CenterY();
 			}
 		}
 
