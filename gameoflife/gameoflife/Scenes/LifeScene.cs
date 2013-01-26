@@ -33,6 +33,7 @@ namespace gameoflife.Scenes
 			life.Center();
 
 			PanelList menubuttons = new PanelList();
+			menubuttons.Padding = 2;
 			menubuttons.Color = Color.CornflowerBlue;
 			menubuttons.Width = canvas.Width - 4;
 			menubuttons.Height = 30;
@@ -97,6 +98,7 @@ namespace gameoflife.Scenes
 			menubuttons.Add(speed);
 
 			PanelList brushes = new PanelList();
+			brushes.Padding = 2;
 			brushes.Color = Color.CornflowerBlue;
 			brushes.Width = canvas.Width - 4;
 			brushes.Height = 50;
