@@ -7,16 +7,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace gameoflife
 {
-	class LifeSelectEventArgs : EventArgs
-	{
-		public bool[,] grid;
-
-		public LifeSelectEventArgs(bool[,] grid)
-			: base()
-		{
-			this.grid = grid;
-		}
-	}
 	class LifeGrid : Panel
 	{
 		// 2D array for holding cell data

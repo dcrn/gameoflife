@@ -20,6 +20,7 @@ namespace gameoflife
 
 			// Title text
 			title = new Label();
+			title.Font = Game1.instance.titlefont;
 			title.Text = "Conway's Game of Life";
 			title.SizeToContents();
 			title.Y = 40;
@@ -37,6 +38,7 @@ namespace gameoflife
 			// Play button
 			TextButton playButton = new TextButton();
 			playButton.Font = Game1.instance.titlefont;
+			playButton.Color = Color.RoyalBlue;
 			playButton.Text = "Play";
 			playButton.Width = 180;
 			playButton.Height = 80;
@@ -46,6 +48,7 @@ namespace gameoflife
 			// Exit button
 			TextButton exitButton = new TextButton();
 			exitButton.Font = Game1.instance.titlefont;
+			exitButton.Color = Color.RoyalBlue;
 			exitButton.Text = "Exit";
 			exitButton.Width = 180;
 			exitButton.Height = 80;

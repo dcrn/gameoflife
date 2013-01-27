@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace gameoflife
 {
@@ -44,10 +38,7 @@ namespace gameoflife
 			base.Initialize();
 
 			// Set active scene to menu
-			activeScene = new MenuScene();
-
-			// Initialize menu after loading fonts
-			activeScene.Initialize();
+			ChangeScene(new MenuScene());
 		}
 
 		protected void WindowResized(object sender, EventArgs args)
@@ -77,14 +68,12 @@ namespace gameoflife
 
 		protected override void UnloadContent()
 		{
+			activeScene = null;
 			Content.Unload();
 		}
 
 		protected override void Update(GameTime gameTime)
 		{
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-				this.Exit();
-
 			MouseState curMouse = Mouse.GetState();
 
 			if (this.IsActive)

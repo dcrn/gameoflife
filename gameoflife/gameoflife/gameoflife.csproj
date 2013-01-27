@@ -112,6 +112,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="LifeGrid.cs" />
+    <Compile Include="LifeSelectEventArgs.cs" />
     <Compile Include="Panel.cs" />
     <Compile Include="PanelList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

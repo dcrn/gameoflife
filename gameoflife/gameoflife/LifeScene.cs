@@ -106,7 +106,7 @@ namespace gameoflife
 			controlmenu.Add(pause);
 
 			Label fastText = new Label();
-			fastText.Text = "Speed: fast ";
+			fastText.Text = " Speed: fast ";
 			fastText.SizeToContents();
 			controlmenu.Add(fastText);
 
@@ -119,9 +119,19 @@ namespace gameoflife
 			controlmenu.Add(speed);
 
 			Label slowText = new Label();
-			slowText.Text = " slow";
+			slowText.Text = " slow  ";
 			slowText.SizeToContents();
 			controlmenu.Add(slowText);
+
+			// Exit button
+			TextButton exit = new TextButton();
+			exit.Text = "Exit";
+			exit.Color = Color.RoyalBlue;
+			exit.Width = 45;
+			exit.Height = 26;
+			exit.OnClick += delegate { Game1.instance.ChangeScene(new MenuScene()); };
+			controlmenu.Add(exit);
+
 
 			// Brush menu panel
 			brushmenu = new PanelList();
