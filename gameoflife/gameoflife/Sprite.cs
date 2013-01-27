@@ -12,7 +12,7 @@ namespace gameoflife
 		Texture2D texture;
 		public void Load(String name)
 		{
-			texture = Game1.instance.Content.Load<Texture2D>(name);
+			texture = Game1.instance.activeScene.Content.Load<Texture2D>(name);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, int xoffset, int yoffset)

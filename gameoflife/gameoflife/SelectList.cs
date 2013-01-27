@@ -18,12 +18,13 @@ namespace gameoflife
 
 			if (selected != null)
 			{
+				// Draw gold outline underneath selected panel
 				spriteBatch.Draw(Game1.instance.blankTexture,
 					new Rectangle(
 						xoffset + selected.X - 1, yoffset + selected.Y - 1,
-						selected.Width + 1, selected.Height + 1
+						selected.Width + 2, selected.Height + 2
 						),
-						Color.RoyalBlue);
+						Color.Gold);
 			}
 
 			base.DrawChildren(spriteBatch, xoffset, yoffset);
@@ -44,6 +45,7 @@ namespace gameoflife
 				// Check if it's in bounds of the child panel
 				if (locx > 0 && locy > 0 && locx < p.Width && locy < p.Height)
 				{
+					// Change selected panel
 					if (p == this.selected)
 					{
 						this.selected = null;
@@ -53,6 +55,7 @@ namespace gameoflife
 						this.selected = p;
 					}
 
+					// Call event
 					OnChange(this, new EventArgs());
 					return true;
 				}

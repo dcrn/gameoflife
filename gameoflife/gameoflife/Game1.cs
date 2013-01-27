@@ -16,9 +16,9 @@ namespace gameoflife
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		MouseState prevMouseState;
-		Scene activeScene;
 
 		public static Game1 instance;
+		public Scene activeScene;
 		public Texture2D blankTexture;
 		public SpriteFont titlefont;
 		public SpriteFont textfont;
@@ -35,23 +35,30 @@ namespace gameoflife
 		{
 			// Make mouse visible
 			this.IsMouseVisible = true;
-
-			// Set active scene to menu
-			activeScene = new Scenes.MenuScene();
+			
+			// Allow user resizing
+			this.Window.AllowUserResizing = true;
+			this.Window.ClientSizeChanged += WindowResized;
 
 			// Load content etc
 			base.Initialize();
+
+			// Set active scene to menu
+			activeScene = new MenuScene();
 
 			// Initialize menu after loading fonts
 			activeScene.Initialize();
 		}
 
+		protected void WindowResized(object sender, EventArgs args)
+		{
+			activeScene.WindowResized();
+		}
+
 		public void ChangeScene(Scene s)
 		{
-			activeScene.UnloadContent();
 			activeScene = s;
 			activeScene.Initialize();
-			activeScene.LoadContent();
 		}
 
 		protected override void LoadContent()
@@ -66,15 +73,11 @@ namespace gameoflife
 			// New white 1x1 texture, used for drawing rectangles etc
 			blankTexture = new Texture2D(GraphicsDevice, 1, 1);
 			blankTexture.SetData(new Color[] { Color.White });
-
-			// Load content for the scene (Menu)
-			activeScene.LoadContent();
 		}
 
 		protected override void UnloadContent()
 		{
-			// Unload active scene contents
-			activeScene.UnloadContent();
+			Content.Unload();
 		}
 
 		protected override void Update(GameTime gameTime)

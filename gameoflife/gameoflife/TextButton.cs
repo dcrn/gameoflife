@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace gameoflife
 {
@@ -26,6 +27,20 @@ namespace gameoflife
 			get
 			{
 				return label.Text;
+			}
+		}
+
+		public SpriteFont Font
+		{
+			set
+			{
+				label.Font = value;
+				label.SizeToContents();
+				label.Center();
+			}
+			get
+			{
+				return label.Font;
 			}
 		}
 

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using System.Windows.Forms;
 
 namespace gameoflife
 {
@@ -21,10 +22,15 @@ namespace gameoflife
 			gridh = 0;
 		}
 
+		public void SetGrid(bool[,] grid)
+		{
+			this.grid = grid;
+			gridw = grid.GetLength(0);
+			gridh = grid.GetLength(1);
+		}
+
 		public override void Draw(SpriteBatch spriteBatch, int xoffset, int yoffset)
 		{
-			// Draw cells, cell size based on height/width of this
-			// No spacing
 			if (grid != null)
 			{
 				// Find out optimal cell width and height
@@ -35,7 +41,6 @@ namespace gameoflife
 				xoffset += Width / 2 - cellw * gridw / 2;
 				yoffset += Height / 2 - cellh * gridh / 2;
 
-				// Loop through grid
 				for (int x = 0; x < gridw; x++)
 				{
 					for (int y = 0; y < gridh; y++)
@@ -52,15 +57,30 @@ namespace gameoflife
 			}
 		}
 
-		public bool Load(String file)
+		public bool Load(String filename)
 		{
-			StreamReader brushfile = new StreamReader(file);
-			String data = brushfile.ReadToEnd();
-			brushfile.Close();
+			// Try open the file
+			StreamReader file;
 
+			try
+			{
+				file = new StreamReader(filename);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+				return false;
+			}
+
+			// Read all data from the file
+			String data = file.ReadToEnd();
+			file.Close();
+
+			// Split data by newline into an array
 			String[] newline = { "\r\n" };
 			String[] brushlines = data.Split(newline, StringSplitOptions.None);
 
+			// Find out the brush width and height
 			this.gridw = 0;
 			foreach (String str in brushlines)
 			{
@@ -73,6 +93,7 @@ namespace gameoflife
 
 			this.grid = new bool[this.gridw, this.gridh];
 
+			// Set grid data from file data
 			for (int y = 0; y < brushlines.Length; y++)
 			{
 				for (int x = 0; x < brushlines[y].Length; x++)
@@ -84,9 +105,35 @@ namespace gameoflife
 			return true;
 		}
 
-		public bool Save(String file)
+		public bool Save(String filename)
 		{
-			return false;
+			StreamWriter file;
+
+			// Try open file for saving
+			try
+			{
+				file = new StreamWriter(filename);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+				return false;
+			}
+
+			// Write grid data to file
+			for (int y = 0; y < gridh; y++)
+			{
+				for (int x = 0; x < gridw; x++)
+				{
+					file.Write(grid[x, y] ? '1' : '0');
+				}
+
+				if (y != gridh - 1)
+					file.Write(file.NewLine);
+			}
+
+			file.Close();
+			return true;
 		}
 	}
 }

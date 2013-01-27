@@ -15,6 +15,26 @@ namespace gameoflife
 			set { padding = value; }
 		}
 
+		public new int Width
+		{
+			set
+			{
+				rect.Width = value;
+				this.Rearrange();
+			}
+			get { return rect.Width; }
+		}
+
+		public new int Height
+		{
+			set
+			{
+				rect.Height = value;
+				this.Rearrange();
+			}
+			get { return rect.Height; }
+		}
+
 		public PanelList()
 			: base()
 		{
@@ -26,9 +46,14 @@ namespace gameoflife
 			children.Add(chld);
 			chld.parent = this;
 
-			int x = padding;
+			Rearrange();
+		}
 
-			// On add, re-arrange children
+
+		public void Rearrange()
+		{
+			// Re-arrange children
+			int x = padding;
 			foreach (Panel p in this.children)
 			{
 				p.X = x;
