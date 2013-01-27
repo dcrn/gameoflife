@@ -32,6 +32,16 @@ namespace gameoflife
 		// Cell size
 		int cellSize;
 
+		// Brush to be used
+		Brush currentBrush;
+		Color brushpreview;
+
+		public Brush CurrentBrush
+		{
+			get { return currentBrush; }
+			set { currentBrush = value; }
+		}
+
 		public int CellSize
 		{
 			get { return cellSize; }
@@ -61,8 +71,11 @@ namespace gameoflife
 			lastgy = 0;
 
 			playing = false;
-			speed = 0.1;
+			speed = 0.0;
 			lastUpdate = 0.0;
+
+			currentBrush = null;
+			brushpreview = new Color(0, 0, 0, 100);
 		}
 
 		public void SetGridSize(int w, int h)
@@ -92,6 +105,37 @@ namespace gameoflife
 							cellSize - 1, cellSize - 1
 							),
 							grid1[x, y] == true ? Color.Black : Color.White);
+				}
+			}
+
+			// If brush is set, draw it on top of the grid transparently
+			if (currentBrush != null)
+			{
+				MouseState mouse = Mouse.GetState();
+
+				int gx = (mouse.X - xoffset) / cellSize;
+				int gy = (mouse.Y - yoffset) / cellSize;
+
+				if (gx >= 0 && gy >= 0 && gx < gridw && gy < gridh)
+				{
+					for (int x = 0; x < currentBrush.gridw; x++)
+					{
+						for (int y = 0; y < currentBrush.gridh; y++)
+						{
+							if ((gx + x) < gridw && (gy + y) < gridh &&
+								(gx + x) >= 0 && (gy + y) >= 0 &&
+								currentBrush.grid[x, y])
+							{
+								// Draw each cell
+								spriteBatch.Draw(Game1.instance.blankTexture,
+									new Rectangle(
+										xoffset + (x + gx) * cellSize, yoffset + (y + gy) * cellSize,
+										cellSize - 1, cellSize - 1
+										),
+										brushpreview);
+							}
+						}
+					}
 				}
 			}
 
@@ -174,19 +218,22 @@ namespace gameoflife
 				return true;
 			}
 
-			// Grid position from mouse location
-			int gx = x / cellSize;
-			int gy = y / cellSize;
-
-			// If the mouse has been moved, and it's a position in the grid
-			if ((gx != lastgx || gy != lastgy) &&
-				(gx >= 0 && gy >= 0 && gx < gridw && gy < gridh))
+			if (currentBrush == null)
 			{
-				// Set the cell on or off (on if left mouse button)
-				grid1[gx, gy] = button == 1;
+				// Grid position from mouse location
+				int gx = x / cellSize;
+				int gy = y / cellSize;
 
-				lastgx = gx;
-				lastgy = gy;
+				// If the mouse has been moved, and it's a position in the grid
+				if ((gx != lastgx || gy != lastgy) &&
+					(gx >= 0 && gy >= 0 && gx < gridw && gy < gridh))
+				{
+					// Set the cell on or off (on if left mouse button)
+					grid1[gx, gy] = button == 1;
+
+					lastgx = gx;
+					lastgy = gy;
+				}
 			}
 
 			return true;
@@ -197,6 +244,25 @@ namespace gameoflife
 			if (base.MousePressed(button, x, y))
 			{
 				return true;
+			}
+
+			if (currentBrush != null)
+			{
+				int gx = x / cellSize;
+				int gy = y / cellSize;
+
+				for (int brushx = 0; brushx < currentBrush.gridw; brushx++)
+				{
+					for (int brushy = 0; brushy < currentBrush.gridh; brushy++)
+					{
+						if ((gx + brushx) < gridw && (gy + brushy) < gridh &&
+							(gx + brushx) >= 0 && (gy + brushy) >= 0 &&
+							currentBrush.grid[brushx, brushy])
+						{
+							grid1[gx + brushx, gy + brushy] = button == 1;
+						}
+					}
+				}
 			}
 
 			lastgx = 0;

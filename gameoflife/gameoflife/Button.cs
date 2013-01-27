@@ -11,7 +11,7 @@ namespace gameoflife
 	class Button : Panel
 	{
 		Color hovercolor;
-		public EventHandler ClickEvent;
+		public EventHandler OnClick;
 
 		public Button()
 			: base()
@@ -49,7 +49,7 @@ namespace gameoflife
 				return true;
 
 			// No child panel has been clicked, so this button's click event should be called
-			ClickEvent(this, new EventArgs());
+			OnClick(this, new EventArgs());
 			return true;
 		}
 	}

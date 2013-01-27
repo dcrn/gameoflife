@@ -77,9 +77,9 @@ namespace gameoflife.Scenes
 			menubox.Add(mpButton);
 			menubox.Add(exitButton);
 
-			spButton.ClickEvent += delegate { Play(); };
-			mpButton.ClickEvent += delegate { };
-			exitButton.ClickEvent += delegate { Game1.instance.Exit(); };
+			spButton.OnClick += delegate { Play(); };
+			mpButton.OnClick += delegate { };
+			exitButton.OnClick += delegate { Game1.instance.Exit(); };
 		}
 		public void Play()
 		{

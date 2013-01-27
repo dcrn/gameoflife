@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Windows.Forms;
 
 namespace gameoflife.Scenes
 {
 	class LifeScene : Scene
 	{
 		Panel canvas;
+		SelectList brushlist;
+
 		public override void Initialize()
 		{
 			canvas = new Panel();
@@ -46,7 +49,7 @@ namespace gameoflife.Scenes
 			clear.Color = Color.DeepSkyBlue;
 			clear.Width = 85;
 			clear.Height = 26;
-			clear.ClickEvent += delegate { life.Clear(); };
+			clear.OnClick += delegate { life.Clear(); };
 			menubuttons.Add(clear);
 
 			TextButton random = new TextButton();
@@ -54,8 +57,7 @@ namespace gameoflife.Scenes
 			random.Color = Color.DeepSkyBlue;
 			random.Width = 85;
 			random.Height = 26;
-			random.ClickEvent += delegate { life.Random(); };
-
+			random.OnClick += delegate { life.Random(); };
 			menubuttons.Add(random);
 
 			TextButton load = new TextButton();
@@ -63,7 +65,7 @@ namespace gameoflife.Scenes
 			load.Color = Color.DeepSkyBlue;
 			load.Width = 85;
 			load.Height = 26;
-			load.ClickEvent += delegate { life.Load(); };
+			load.OnClick += delegate { life.Load(); };
 			menubuttons.Add(load);
 
 			TextButton save = new TextButton();
@@ -71,7 +73,7 @@ namespace gameoflife.Scenes
 			save.Color = Color.DeepSkyBlue;
 			save.Width = 85;
 			save.Height = 26;
-			save.ClickEvent += delegate { life.Save(); };
+			save.OnClick += delegate { life.Save(); };
 			menubuttons.Add(save);
 
 			SpriteButton play = new SpriteButton();
@@ -79,7 +81,7 @@ namespace gameoflife.Scenes
 			play.Color = Color.DeepSkyBlue;
 			play.Width = 26;
 			play.Height = 26;
-			play.ClickEvent += delegate { life.Playing = true; };
+			play.OnClick += delegate { life.Playing = true; };
 			menubuttons.Add(play);
 
 			SpriteButton pause = new SpriteButton();
@@ -87,7 +89,7 @@ namespace gameoflife.Scenes
 			pause.Color = Color.DeepSkyBlue;
 			pause.Width = 26;
 			pause.Height = 26;
-			pause.ClickEvent += delegate { life.Playing = false; };
+			pause.OnClick += delegate { life.Playing = false; };
 			menubuttons.Add(pause);
 
 			Slider speed = new Slider();
@@ -97,15 +99,64 @@ namespace gameoflife.Scenes
 			speed.OnChange += delegate { life.Speed = speed.Value; };
 			menubuttons.Add(speed);
 
-			PanelList brushes = new PanelList();
-			brushes.Padding = 2;
-			brushes.Color = Color.CornflowerBlue;
-			brushes.Width = canvas.Width - 4;
-			brushes.Height = 50;
-			brushes.X = 2;
-			brushes.Y = canvas.Height - 52;
-			canvas.Add(brushes);
+			PanelList brushmenu = new PanelList();
+			brushmenu.Padding = 2;
+			brushmenu.Color = Color.CornflowerBlue;
+			brushmenu.Width = canvas.Width - 4;
+			brushmenu.Height = 50;
+			brushmenu.X = 2;
+			brushmenu.Y = canvas.Height - 52;
+			canvas.Add(brushmenu);
+
+			SpriteButton loadBrush = new SpriteButton();
+			loadBrush.Load("loadbrush");
+			loadBrush.Color = Color.DeepSkyBlue;
+			loadBrush.Width = 46;
+			loadBrush.Height = 46;
+			loadBrush.OnClick += delegate { LoadBrush(); };
+			brushmenu.Add(loadBrush);
+
+			SpriteButton saveBrush = new SpriteButton();
+			saveBrush.Load("savebrush");
+			saveBrush.Color = Color.DeepSkyBlue;
+			saveBrush.Width = 46;
+			saveBrush.Height = 46;
+			saveBrush.OnClick += delegate { };
+			brushmenu.Add(saveBrush);
+			
+			brushlist = new SelectList();
+			brushlist.Padding = 2;
+			brushlist.Height = 50;
+			brushlist.Width = brushmenu.Width - 46 * 2 - 2 * 4;
+			brushlist.OnChange += delegate { life.CurrentBrush = (Brush)brushlist.selected; };
+			brushmenu.Add(brushlist);
 		}
+
+		void LoadBrush()
+		{
+			OpenFileDialog filedialog = new OpenFileDialog();
+			filedialog.CheckPathExists = true;
+			filedialog.CheckFileExists = true;
+			filedialog.Multiselect = true;
+			filedialog.Filter = "Game of life brush (*.lifebrush)|*.lifebrush";
+			filedialog.FilterIndex = 0;
+
+			DialogResult result = filedialog.ShowDialog();
+			if (result != DialogResult.OK)
+				return;
+
+			foreach (String file in filedialog.FileNames)
+			{
+				Brush b = new Brush();
+				if (b.Load(file))
+				{
+					b.Width = 46;
+					b.Height = 46;
+					brushlist.Add(b);
+				}
+			}
+		}
+
 		public override void LoadContent()
 		{
 

@@ -108,6 +108,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Brush.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="LifeGrid.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Scenes\LifeScene.cs" />
     <Compile Include="Scenes\MenuScene.cs" />
+    <Compile Include="SelectList.cs" />
     <Compile Include="Slider.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="SpriteButton.cs" />
