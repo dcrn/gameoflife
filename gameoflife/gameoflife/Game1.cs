@@ -85,35 +85,42 @@ namespace gameoflife
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
 				this.Exit();
 
-			// Generate mouse events
 			MouseState curMouse = Mouse.GetState();
-			// Left mouse press/release
-			if (curMouse.LeftButton != prevMouseState.LeftButton)
+
+			if (this.IsActive)
 			{
-				if (curMouse.LeftButton == ButtonState.Pressed)
-					this.activeScene.MousePressed(1, curMouse.X, curMouse.Y);
-				else
-					this.activeScene.MouseReleased(1, curMouse.X, curMouse.Y);
-			}
-			// Right mouse press/release
-			if (curMouse.RightButton != prevMouseState.RightButton)
-			{
-				if (curMouse.RightButton == ButtonState.Pressed)
-					this.activeScene.MousePressed(2, curMouse.X, curMouse.Y);
-				else
-					this.activeScene.MouseReleased(2, curMouse.X, curMouse.Y);
+				// Generate mouse events
+				// Left mouse press/release
+				if (curMouse.LeftButton != prevMouseState.LeftButton)
+				{
+					if (curMouse.LeftButton == ButtonState.Pressed)
+						this.activeScene.MousePressed(1, curMouse.X, curMouse.Y);
+					else
+						this.activeScene.MouseReleased(1, curMouse.X, curMouse.Y);
+				}
+				// Right mouse press/release
+				if (curMouse.RightButton != prevMouseState.RightButton)
+				{
+					if (curMouse.RightButton == ButtonState.Pressed)
+						this.activeScene.MousePressed(2, curMouse.X, curMouse.Y);
+					else
+						this.activeScene.MouseReleased(2, curMouse.X, curMouse.Y);
+				}
 			}
 
 			// Update the active scene
 			activeScene.Update(gameTime.ElapsedGameTime.TotalSeconds, gameTime.TotalGameTime.TotalSeconds);
 
-			if (curMouse.LeftButton == ButtonState.Pressed)
+			if (this.IsActive)
 			{
-				activeScene.MouseDown(1, curMouse.X, curMouse.Y, gameTime.ElapsedGameTime.TotalSeconds);
-			}
-			if (curMouse.RightButton == ButtonState.Pressed)
-			{
-				activeScene.MouseDown(2, curMouse.X, curMouse.Y, gameTime.ElapsedGameTime.TotalSeconds);
+				if (curMouse.LeftButton == ButtonState.Pressed)
+				{
+					activeScene.MouseDown(1, curMouse.X, curMouse.Y, gameTime.ElapsedGameTime.TotalSeconds);
+				}
+				if (curMouse.RightButton == ButtonState.Pressed)
+				{
+					activeScene.MouseDown(2, curMouse.X, curMouse.Y, gameTime.ElapsedGameTime.TotalSeconds);
+				}
 			}
 
 			prevMouseState = curMouse;

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.IO;
-using System.Windows.Forms;
 
 namespace gameoflife
 {
@@ -330,8 +327,25 @@ namespace gameoflife
 				}
 			}
 
-			// If selecting a rectangle
-			if (selectMode == 2)
+			// If selecting (Point 1)
+			if (selectMode == 1)
+			{
+				MouseState mouse = Mouse.GetState();
+				int gx = (mouse.X - xoffset) / cellSize;
+				int gy = (mouse.Y - yoffset) / cellSize;
+
+				if (gx >= 0 && gy >= 0 && gx < gridw && gy < gridh)
+				{
+					spriteBatch.Draw(Game1.instance.blankTexture,
+						new Rectangle(
+							xoffset + gx * cellSize, yoffset + gy * cellSize,
+							cellSize, cellSize
+							),
+							new Color(255, 0, 0, 100));
+				}
+			}
+			// If selecting point 2
+			else if (selectMode == 2)
 			{
 				MouseState mouse = Mouse.GetState();
 				int gx = (mouse.X - xoffset) / cellSize;
@@ -513,9 +527,7 @@ namespace gameoflife
 					for (int sy = 0; sy < h; sy++)
 					{
 						selection[sx, sy] = grid1[selectPoint.X + sx, selectPoint.Y + sy];
-						Console.Write(selection[sx, sy] ? '1' : '0');
 					}
-					Console.Write('\n');
 				}
 
 				selectMode = 0;
