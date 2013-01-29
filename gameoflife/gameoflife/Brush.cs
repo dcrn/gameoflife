@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace gameoflife
 {
@@ -28,6 +29,8 @@ namespace gameoflife
 
 		public override void Draw(SpriteBatch spriteBatch, int xoffset, int yoffset)
 		{
+			base.Draw(spriteBatch, xoffset, yoffset);
+
 			if (grid != null)
 			{
 				// Find out optimal cell width and height
@@ -69,13 +72,13 @@ namespace gameoflife
 				return false;
 			}
 
-			// Read all data from the file
-			String data = file.ReadToEnd();
+			// Split file by newline into an array
+			List<String> brushlines = new List<String>();
+			while (!file.EndOfStream)
+			{
+				brushlines.Add(file.ReadLine());
+			}
 			file.Close();
-
-			// Split data by newline into an array
-			String[] newline = { "\r\n" };
-			String[] brushlines = data.Split(newline, StringSplitOptions.None);
 
 			// Find out the brush width and height
 			this.gridw = 0;
@@ -86,12 +89,12 @@ namespace gameoflife
 					this.gridw = str.Length;
 				}
 			}
-			this.gridh = brushlines.Length;
+			this.gridh = brushlines.Count;
 
 			this.grid = new bool[this.gridw, this.gridh];
 
 			// Set grid data from file data
-			for (int y = 0; y < brushlines.Length; y++)
+			for (int y = 0; y < brushlines.Count; y++)
 			{
 				for (int x = 0; x < brushlines[y].Length; x++)
 				{

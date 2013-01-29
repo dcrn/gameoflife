@@ -18,8 +18,8 @@ namespace gameoflife
 				// Draw gold outline underneath selected panel
 				spriteBatch.Draw(Game1.instance.blankTexture,
 					new Rectangle(
-						xoffset + selected.X - 1, yoffset + selected.Y - 1,
-						selected.Width + 2, selected.Height + 2
+						xoffset + selected.X - 2, yoffset + selected.Y - 2,
+						selected.Width + 4, selected.Height + 4
 						),
 						Color.Gold);
 			}

@@ -218,6 +218,7 @@ namespace gameoflife
 				Brush b = new Brush();
 				if (b.Load(file))
 				{
+					b.Color = Color.RoyalBlue;
 					b.Width = 46;
 					b.Height = 46;
 					brushlist.Add(b);
