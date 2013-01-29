@@ -200,12 +200,13 @@ namespace gameoflife
 			{
 				String line = file.ReadLine();
 
-				for (int x = 0; x < line.Length; x++)
+				for (int x = 0; x < Math.Min(line.Length, gridw); x++)
 				{
 					grid1[x, y] = line[x] == '1';
 				}
 
 				y++;
+				if (y >= gridh) break;
 			}
 
 			file.Close();
