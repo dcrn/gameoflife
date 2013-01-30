@@ -33,17 +33,22 @@ namespace gameoflife
 
 			if (grid != null)
 			{
+				// Cap the size of the drawn grid to the panel width & height
+				int w = Math.Min(gridw, Width);
+				int h = Math.Min(gridh, Height);
+
 				// Find out optimal cell width and height
-				int cellw = Width / gridw;
-				int cellh = Height / gridh;
+				int cellw = Width / w;
+				int cellh = Height / h;
 
 				// Center
-				xoffset += Width / 2 - cellw * gridw / 2;
-				yoffset += Height / 2 - cellh * gridh / 2;
+				xoffset += Width / 2 - cellw * w / 2;
+				yoffset += Height / 2 - cellh * h / 2;
 
-				for (int x = 0; x < gridw; x++)
+				// Draw cells
+				for (int x = 0; x < w; x++)
 				{
-					for (int y = 0; y < gridh; y++)
+					for (int y = 0; y < h; y++)
 					{
 						// Draw each cell
 						spriteBatch.Draw(Game1.instance.blankTexture,

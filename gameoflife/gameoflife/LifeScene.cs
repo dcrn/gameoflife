@@ -189,6 +189,7 @@ namespace gameoflife
 
 			// Create brush from selected grid
 			Brush b = new Brush();
+			b.Color = Color.RoyalBlue;
 			b.SetGrid(args.grid);
 			b.Width = 46;
 			b.Height = 46;
